@@ -1,5 +1,3 @@
-"use client";
-
 import { generateImage } from "./actions/generateImage";
 import ImageGenerator from "./components/ImageGenerator";
 

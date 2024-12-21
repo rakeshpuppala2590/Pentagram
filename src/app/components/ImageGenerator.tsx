@@ -13,6 +13,7 @@ export default function ImageGenerator({ generateImage }: ImageGeneratorProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -27,12 +28,7 @@ export default function ImageGenerator({ generateImage }: ImageGeneratorProps) {
       }
 
       if (data.imageUrl) {
-        const img = new Image();
-        const url = data.imageUrl;
-        img.onload = () => {
-          setImageUrl(url);
-        };
-        img.src = url;
+        setImageUrl(data.imageUrl);
       } else {
         throw new Error("No image URL returned");
       }
@@ -40,16 +36,20 @@ export default function ImageGenerator({ generateImage }: ImageGeneratorProps) {
       setInputText("");
     } catch (error) {
       console.error("Error:", error);
+      setError(error instanceof Error ? error.message : "An error occurred");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    // TODO: Update the UI here to show the images generated
-
     <div className="min-h-screen flex flex-col justify-between p-8">
       <main className="flex-1">
+        {error && (
+          <div className="w-full max-w-3xl mx-auto mb-4 p-4 bg-red-100 text-red-700 rounded-lg">
+            {error}
+          </div>
+        )}
         {imageUrl && (
           <div className="w-full max-w-3xl mx-auto">
             <img
