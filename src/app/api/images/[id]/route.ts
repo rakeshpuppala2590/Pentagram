@@ -1,4 +1,3 @@
-// app/api/images/[id]/route.ts
 import { NextResponse } from "next/server";
 import prisma from "../../../lib/prisma";
 
@@ -10,20 +9,34 @@ export async function POST(
 
   switch (action) {
     case "like":
-      const likedImage = await prisma.image.update({
-        where: { id: params.id },
-        data: { likes: { increment: 1 } },
-      });
-      return NextResponse.json(likedImage);
+      try {
+        const likedImage = await prisma.image.update({
+          where: { id: params.id },
+          data: { likes: { increment: 1 } },
+        });
+        return NextResponse.json(likedImage);
+      } catch (error) {
+        return NextResponse.json(
+          { error: "Error liking image" },
+          { status: 500 }
+        );
+      }
 
     case "comment":
-      const newComment = await prisma.comment.create({
-        data: {
-          content: comment,
-          imageId: params.id,
-        },
-      });
-      return NextResponse.json(newComment);
+      try {
+        const newComment = await prisma.comment.create({
+          data: {
+            content: comment,
+            imageId: params.id,
+          },
+        });
+        return NextResponse.json(newComment);
+      } catch (error) {
+        return NextResponse.json(
+          { error: "Error adding comment" },
+          { status: 500 }
+        );
+      }
 
     default:
       return NextResponse.json({ error: "Invalid action" }, { status: 400 });
