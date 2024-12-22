@@ -14,13 +14,20 @@ interface Comment {
   id: string;
   content: string;
 }
+interface Image {
+  id: string;
+  imageUrl: string;
+  prompt: string;
+  likes: number;
+  comments: Comment[];
+}
 
 export default function ImageGenerator({ generateImage }: ImageGeneratorProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [inputText, setInputText] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [images, setImages] = useState<Array<any>>([]);
+  const [images, setImages] = useState<Array<Image>>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

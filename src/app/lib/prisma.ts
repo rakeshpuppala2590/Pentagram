@@ -5,15 +5,15 @@ const prismaClientSingleton = () => {
 };
 
 const getPrismaClient = () => {
-  if (!globalThis.prisma) {
-    globalThis.prisma = prismaClientSingleton();
+  if (!(globalThis as any).prisma) {
+    (globalThis as any).prisma = prismaClientSingleton();
   }
-  return globalThis.prisma;
+  return (globalThis as any).prisma;
 };
 
 // Ensure type safety for `globalThis.prisma`
 declare global {
-  var prisma: PrismaClient | undefined;
+  let prisma: PrismaClient | undefined; // Changed `var` to `let`
 }
 
 const prisma = getPrismaClient();
