@@ -41,6 +41,7 @@ export async function POST(request: Request) {
         imageUrl: blob.url,
       },
     });
+    console.log("Image created:", image);
 
     return NextResponse.json({ success: true, imageUrl: blob.url });
   } catch (error) {
