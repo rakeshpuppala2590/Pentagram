@@ -3,15 +3,16 @@ import prisma from "../../../lib/prisma";
 
 export async function POST(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
+  const { id } = context.params;
   const { action, comment } = await request.json();
 
   switch (action) {
     case "like":
       try {
         const likedImage = await prisma.image.update({
-          where: { id: params.id },
+          where: { id },
           data: { likes: { increment: 1 } },
         });
         return NextResponse.json(likedImage);
@@ -27,7 +28,7 @@ export async function POST(
         const newComment = await prisma.comment.create({
           data: {
             content: comment,
-            imageId: params.id,
+            imageId: id,
           },
         });
         return NextResponse.json(newComment);
