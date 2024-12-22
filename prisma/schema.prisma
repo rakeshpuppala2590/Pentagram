@@ -1,0 +1,36 @@
+// prisma/schema.prisma
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Image {
+  id        String    @id @default(cuid())
+  prompt    String
+  imageUrl  String
+  createdAt DateTime  @default(now())
+  likes     Int       @default(0)
+  isHidden  Boolean   @default(false)
+  comments  Comment[]
+  shares    Int       @default(0)
+  userId    String?   // Optional user association
+  tags      String[]  // For better search functionality
+  
+  @@index([prompt]) // Index for faster text search
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  imageId   String
+  userId    String?  // Optional user association
+  image     Image    @relation(fields: [imageId], references: [id], onDelete: Cascade)
+
+  @@index([imageId])
+}
