@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    domains: ["qxybjeofwtvj9d01.public.blob.vercel-storage.com"],
+  },
+  /* other config options here */
 };
 
 export default nextConfig;

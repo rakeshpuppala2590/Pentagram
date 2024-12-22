@@ -15,7 +15,7 @@ export async function POST(
           data: { likes: { increment: 1 } },
         });
         return NextResponse.json(likedImage);
-      } catch (error) {
+      } catch {
         return NextResponse.json(
           { error: "Error liking image" },
           { status: 500 }
@@ -31,7 +31,7 @@ export async function POST(
           },
         });
         return NextResponse.json(newComment);
-      } catch (error) {
+      } catch {
         return NextResponse.json(
           { error: "Error adding comment" },
           { status: 500 }

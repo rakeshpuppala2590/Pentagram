@@ -1,5 +1,5 @@
 "use client";
-
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { fetchImages } from "../actions/generateImage";
 import { Search, Heart, Share2, MessageCircle } from "lucide-react";
@@ -154,11 +154,14 @@ export default function ImageGenerator({ generateImage }: ImageGeneratorProps) {
               key={image.id}
               className="relative rounded-xl overflow-hidden shadow-lg transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl"
             >
-              <img
+              <Image
                 src={image.imageUrl}
                 alt={image.prompt}
+                width={500} // Adjust the width as needed
+                height={256} // Adjust the height as needed
                 className="w-full h-64 object-cover"
               />
+
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-purple-900/90 to-transparent p-4">
                 <p className="text-sm text-white font-medium mb-2">
                   {image.prompt}
